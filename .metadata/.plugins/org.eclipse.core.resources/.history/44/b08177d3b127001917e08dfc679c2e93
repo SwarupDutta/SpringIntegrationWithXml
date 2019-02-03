@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:int="http://www.springframework.org/schema/integration"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+			
+	
+
+	<int:channel id="inputChannel" />
+	<int:channel id="transformedChannel"/>
+	<int:channel id="filteredChannel"/>
+	
+	<int:channel id="rejectedMessages">
+		<int:queue capacity="10"/>
+	</int:channel>
+	
+	<int:channel id="outputChannel">
+	
+		<int:queue capacity="10" />
+	</int:channel>
+	
+	
+	<int:transformer ref="stringToCustomer" output-channel="transformedChannel" input-channel="inputChannel"/>
+	<int:filter ref="customFilter" output-channel="filteredChannel" input-channel="transformedChannel" throw-exception-on-rejection="true" method="filterInvalidCustomers" discard-channel="rejectedMessages"/>
+	<int:service-activator input-channel="filteredChannel" ref="greeting" output-channel="outputChannel" />
+	
+	
+	
+	<bean id="stringToCustomer" class="com.javarticles.spring.integration.transformer.StringToCustomerTransformer"/>
+	<bean id="customFilter" class="com.javarticles.spring.integration.gateway.MyFilter"/>
+	<bean id="greeting" class="com.javarticles.spring.integration.filter.CustomFilter" />
+
+	
+	
+	<bean id="senderReceiver"
+		class="poc.spring.integration.SenderReceiver">
+		<property name="inputChannel" ref="inputChannel" />
+				<property name="outChannel" ref="outputChannel" />
+		
+		
+	</bean>
+	
+
+
+	
+
+
+</beans>

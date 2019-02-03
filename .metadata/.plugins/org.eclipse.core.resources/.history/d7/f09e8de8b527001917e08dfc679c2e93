@@ -1,0 +1,20 @@
+package com.javarticles.spring.integration.router;
+
+import poc.spring.integration.dto.Customer;
+
+public class CustomRouter {
+	
+	public String routeOrder(Customer cust) {
+        String returnChannel = "unknownCustomer";
+         
+        if (cust.getCustomerDescription().startsWith("US-")) {
+            returnChannel = "usOrders";
+        }
+        else if (cust.getCustomerDescription().startsWith("EU-")) {
+            returnChannel = "europeOrders";
+        }
+         
+        return returnChannel;
+    }
+
+}

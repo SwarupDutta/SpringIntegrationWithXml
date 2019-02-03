@@ -1,0 +1,9 @@
+package poc.spring.integration.service;
+
+import poc.spring.integration.dto.Customer;
+
+public class Greeting {
+    public String sayHello(Customer payload) {
+        return "Hello World!" + payload;
+    }
+}

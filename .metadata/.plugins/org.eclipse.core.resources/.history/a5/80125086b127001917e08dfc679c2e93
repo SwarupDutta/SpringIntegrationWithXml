@@ -1,0 +1,5 @@
+package com.javarticles.spring.integration.filter;
+
+public class CustomFilter {
+
+}

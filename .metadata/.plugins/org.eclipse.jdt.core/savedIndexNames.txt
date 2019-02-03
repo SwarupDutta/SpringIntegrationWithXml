@@ -1,0 +1,2 @@
+INDEX VERSION 1.130+D:\WorkSpaces\SpringIntegrationWorkSpaceXmlMaven\.metadata\.plugins\org.eclipse.jdt.core
+4064964920.index

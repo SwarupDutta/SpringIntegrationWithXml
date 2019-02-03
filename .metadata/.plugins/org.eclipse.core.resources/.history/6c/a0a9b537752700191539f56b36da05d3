@@ -1,0 +1,30 @@
+package poc.spring.integration;
+public class Customer {
+    private String id;
+    public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getCustomerDescription() {
+		return customerDescription;
+	}
+
+	public void setCustomerDescription(String customerDescription) {
+		this.customerDescription = customerDescription;
+	}
+
+	private String customerDescription;
+ 
+    public Customer(String id) {
+        super();
+        this.id = id;
+    }
+ 
+    public String toString() {
+        return "Customer: " + id;
+    }
+}

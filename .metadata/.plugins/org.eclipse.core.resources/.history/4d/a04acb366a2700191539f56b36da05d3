@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:int="http://www.springframework.org/schema/integration"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+			<int:channel id="rejectedMessages" >
+					<int:queue capacity="10" />
+			
+			</int:channel>
+	
+		<int:channel id="filteredChannel" />
+	
+	<int:channel id="serviceActivatorChannel" />
+		<int:channel id="newServiceActivatorChannel" />
+	
+
+	<int:channel id="inputChannel" />
+		<int:channel id="transformedChannel" />
+	
+	<int:channel id="outputChannel">
+	
+		<int:queue capacity="10" />
+	</int:channel>
+	
+	
+		<int:channel id="customerResponseChannel"/>
+	
+
+	<bean id="springIntHelloWorldExample"
+		class="com.javarticles.spring.integration.SpringIntegrationHelloWorldExample">
+		<property name="inputChannel" ref="inputChannel" />
+	</bean>
+
+	<bean id="greeting" class="com.javarticles.spring.integration.Greeting" />
+
+	<int:service-activator input-channel="inputChannel"
+		ref="greeting" output-channel="outputChannel" />
+
+ <!--	<int:gateway id="customerService"
+		service-interface="com.javarticles.spring.integration.gateway.CustomerService"
+		default-request-channel="customerRequestChannel"
+		default-reply-timeout="3000" /
+
+	<int:channel id="customerRequestChannel" />> 
+	
+	<int:transformer input-channel="inputChannel" output-channel="transformedChannel" ref="StringToCustomer" />
+		<int:filter ref="myFilter" discard-channel="rejectedMessages" method="filterInvalidCustomers" throw-exception-on-rejection="true" input-channel="transformedChannel" output-channel="filteredChannel"/>
+	
+	<int:router ref="myRouter" input-channel="filteredChannel" default-output-channel="serviceActivatorChannel"/>
+	<bean id="StringToCustomer" class="com.javarticles.spring.integration.gateway.StringToCustomer"/>
+	
+	     <int:service-activator input-channel="serviceActivatorChannel" output-channel="outputChannel"
+		ref="customerServiceImpl"  method="getCustomerInfo"/> 
+		
+		  <int:service-activator input-channel="newServiceActivatorChannel" output-channel="outputChannel"
+		ref="customerServiceImpl" method="getCustomerInfov1" /> 
+ 
+	<!--  <int:service-activator input-channel="customerRequestChannel" 
+		ref="customerServiceImpl"  /> -->
+		
+	<bean id="customerServiceImpl" class="com.javarticles.spring.integration.gateway.CustomerServiceImpl"/>
+		
+	<bean id="myRouter" class="com.javarticles.spring.integration.gateway.MyRouter"/>
+		<bean id="myFilter" class="com.javarticles.spring.integration.gateway.MyFilter"/>
+	
+
+
+
+
+	<bean id="huloBiral"
+		class="com.javarticles.spring.integration.gateway.SpringIntegrationTransformerExample">
+		<property name="inputChannel" ref="inputChannel" />
+	</bean>
+
+
+
+
+
+</beans>

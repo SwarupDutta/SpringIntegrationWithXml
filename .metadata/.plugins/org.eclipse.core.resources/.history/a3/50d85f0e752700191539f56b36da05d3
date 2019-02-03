@@ -1,0 +1,13 @@
+package com.javarticles.spring.integration.transformer;
+public class StringToCustomerTransformer {
+	
+	
+	public Customer transform(String customerId)
+	{
+		System.out.println("Constructing customer with id"+customerId);
+		Customer customer=new Customer(customerId + ", called by: " + Thread.currentThread().getName());
+		customer.setCustomerDescription("invalid Customer");
+		return customer;
+	}
+
+}
